@@ -1,3 +1,7 @@
+# Addresses:
+
+Price Calculator: 0x2800f8a7F5b02EBb40cA830BE88F4101364bc50c
+
 # Advanced Sample Hardhat Project
 
 This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
