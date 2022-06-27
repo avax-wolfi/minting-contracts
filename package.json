@@ -31,5 +31,11 @@
     "ts-node": "^10.8.1",
     "typechain": "^5.2.0",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.6.0",
+    "@pangolindex/exchange-contracts": "^2.1.0",
+    "@pangolindex/sdk": "^2.0.12-near.0",
+    "hardhat-contract-sizer": "^2.5.1"
   }
 }
