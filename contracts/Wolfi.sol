@@ -88,10 +88,8 @@ contract Wolfi is ERC721Metadata {
     constructor(
         string memory baseURI_,
         address admin_,
-        address _priceCalculatorAddress,
-        string memory name,
-        string memory symbol
-    ) ERC721Metadata(name, symbol, baseURI_, MAX_NFT_SUPPLY) {
+        address _priceCalculatorAddress
+    ) ERC721Metadata("WOLFI", "WOLFI", baseURI_, MAX_NFT_SUPPLY) {
         _admin = admin_;
         priceCalculatorAddress = _priceCalculatorAddress;
     }
