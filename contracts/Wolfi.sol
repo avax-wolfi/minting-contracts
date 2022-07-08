@@ -85,6 +85,11 @@ contract Wolfi is ERC721Metadata {
 
     address public priceCalculatorAddress;
 
+    // Giveaway winners
+    uint256 private _giveawayMax = 50;
+    mapping(uint256 => address) private _giveaways;
+    Counters.Counter private _giveawayCounter;
+
     constructor(
         string memory baseURI_,
         address admin_,
@@ -128,13 +133,15 @@ contract Wolfi is ERC721Metadata {
 
         require(
             priceAvax.mul(counts_) == msg.value,
-            "Rytell: invalid ether value"
+            "Wolfi: invalid ether value"
         );
 
         for (uint256 i = 0; i < counts_; i++) {
             _randomMint(_msgSender());
             _totalSupply += 1;
         }
+
+        payable(_admin).transfer(msg.value);
     }
 
     function _randomMint(address to_) private returns (uint256) {
@@ -192,5 +199,33 @@ contract Wolfi is ERC721Metadata {
 
     function setAdmin(address newAdmin) public onlyOwner {
         _admin = newAdmin;
+    }
+
+    function addToGiveawayMax(uint256 giveawayMax_)
+        external onlyOwner {
+        require(
+            giveawayMax_ >= 0 && giveawayMax_ <= MAX_NFT_SUPPLY,
+            "Wolfi: invalid max value"
+        );
+
+        _giveawayMax += giveawayMax_;
+    }
+
+    function randomGiveaway(address[] memory winners_)
+        external onlyOwner {
+        require(
+            _giveawayCounter
+                .current()
+                .add(winners_.length) <= _giveawayMax,
+            "Wolfi: overflow giveaways");
+
+        for(uint i = 0; i < winners_.length; i++) {
+            uint256 tokenID = _randomMint(winners_[i]);
+            _giveaways[tokenID] = winners_[i];
+            _giveawayCounter.increment();
+        }
+
+        _totalSupply = _totalSupply
+            .add(winners_.length);
     }
 }
