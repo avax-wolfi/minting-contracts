@@ -131,9 +131,16 @@ contract Wolfi is ERC721Metadata {
         uint256 priceAvax = ICalculatePrice(priceCalculatorAddress)
             .getWolfiPriceInAvax();
 
+        uint256 upperBound = msg.value * 115 / 100;
+        uint256 lowerBound = msg.value * 90 / 100;
+
         require(
-            priceAvax.mul(counts_) == msg.value,
-            "Wolfi: invalid ether value"
+            priceAvax.mul(counts_) <= upperBound ,
+            "Wolfi: ether value exceeds current price"
+        );
+        require(
+            priceAvax.mul(counts_) >= lowerBound,
+            "Wolfi: ether value is not enough"
         );
 
         for (uint256 i = 0; i < counts_; i++) {
